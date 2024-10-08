@@ -65,12 +65,9 @@ const LoginButton = ({ onLogin }: { onLogin: (address: string | null) => void })
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
       {address ? (
-        <>
-          <Typography variant="h6">Connected: {address}</Typography>
-          <Button variant="outlined" onClick={handleLogout}>
-            Disconnect
-          </Button>
-        </>
+        <Button variant="outlined" onClick={handleLogout}>
+          Disconnect
+        </Button>
       ) : (
         <Button variant="contained" onClick={handleLogin}>
           Connect Tron Wallet
@@ -78,6 +75,7 @@ const LoginButton = ({ onLogin }: { onLogin: (address: string | null) => void })
       )}
     </Box>
   );
+  
 };
 
 export default LoginButton;
