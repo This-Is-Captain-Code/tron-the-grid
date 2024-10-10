@@ -1,22 +1,18 @@
 "use client"; 
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, TextField, Button, CircularProgress, Typography, Card, CardContent, CardMedia, MenuItem, Select } from '@mui/material';
+import { Box, TextField, Button, CircularProgress, Typography, Card, CardContent, CardMedia } from '@mui/material';
 import axios from 'axios';
-import TronWeb from 'tronweb';
 import LoginButton from './components/LoginButton';  // Tron Login Button
 import { Orbitron } from 'next/font/google'; // Import Handjet font
 
 const backgroundVideoUrl = 'https://res.cloudinary.com/ddrzwupca/video/upload/v1728355014/pxj2os0lc1ci7l32ado8.mp4';
 const handjet = Orbitron({ subsets: ['latin'] });
 
-const TRON_NILE_URL = 'https://api.nileex.io';
-
 const Page: React.FC = ()  => {
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1); // Pagination state
-  const [totalResults, setTotalResults] = useState(0);
   const [source, setSource] = useState('');
   const [hasMore, setHasMore] = useState(true);
   const [limit] = useState(10);
@@ -161,6 +157,11 @@ const Page: React.FC = ()  => {
     }
   }, [currentPage, source]);
 
+  useEffect(() => {
+    setSource(() => '')
+  }, [])
+
+
   // Handler for next page
   const handleNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -208,7 +209,16 @@ const Page: React.FC = ()  => {
       />
       {/* Tron Wallet Login */}
 
-      <Box sx={{ position: 'absolute', top: 20, right: 20, zIndex: 1 }}>
+      <Box
+        sx={{
+            position: 'absolute',
+            top: 20,
+            right: 20,
+            zIndex: 10,
+            display: 'flex',
+            gap: 2, // Adjust the gap between buttons (e.g., 2 = 16px)
+        }}
+      >
         <LoginButton onLogin={setTronAddress} />
       </Box>
 
@@ -260,7 +270,7 @@ const Page: React.FC = ()  => {
             variant="outlined"
             fullWidth
             sx={{
-              backgroundColor: 'rgba(255, 255, 255, 1)',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
               borderRadius: '4px',
               border: '2px solid #FFFFFF',
               boxShadow: '0 0 10px #FFFFFF',
@@ -395,10 +405,12 @@ const Page: React.FC = ()  => {
               </Box>
             </Card>
           ))}
-        </Box>
-        
-        
+        </Box>        
         )}
+
+        <Typography variant="body2" sx={{ color: 'red', mt: 2 }} >
+          Disclaimer: Enable "Insecure Content" in your browser settings to view the website
+        </Typography>
 
         {/* Pagination Buttons */}
         {results.length > 0 && (
